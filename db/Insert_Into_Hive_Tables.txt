@@ -1,0 +1,54 @@
+insert into table Trial_Dim
+			values 
+			(1,1,"Compound 123 twice weekly for 12 weeks at 25mg",100,24,12,"25mg")
+			(2,1,"myracle dose ","50mg")
+			;
+
+select * from Trial_Dim;
+
+insert into table Compound_Dim
+			values 
+			(1,"Compound 123"),
+			(2,"Compound 987")
+			;
+
+select * from Compound_Dim;
+
+insert into table Investigator_Dim
+			values 
+			(1,"Robert Smith","Main Street, Springfield, NJ, USA","MD"),
+			(2,"Sally Jones","New Road, Horsham, Sussex, UK","GP")
+			;
+
+select * from Investigator_Dim;
+
+insert into table Patient_Dim
+			values 
+			(1,9001,"1975-08-03","F",165),
+			(2,9002,"1968-05-31""M",175)
+			;
+
+select * from Patient_Dim;
+
+insert into table Identity_Dim
+			values 
+			(9001,"Sarah Brown","Avenue Lane, Springfield, NJ, USA","Fred Black","Lane Avenue, Srpingfield NJ, USA"),
+			(9002,"Steve White","North Drive, Horsham, Sussex, UK","Daisy Green","East Close, Horsham, Sussex, UK")
+			;
+
+select * from Identity_Dim;
+
+insert into table Visit_Dim
+			values 
+			(1,"01-01-2017","123 Cresent Avenue")
+			;
+
+select * from Visit_Dim;
+
+insert into table Visit_Fact
+			values 
+			(1,1,1,1,1,"120/80",37,160,"25mg","Injection"),
+			(1,1,1,1,2,"125/75",36,150,"20mg","Injection")
+			;
+
+select * from Visit_Fact

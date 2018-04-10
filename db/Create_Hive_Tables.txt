@@ -1,0 +1,51 @@
+CREATE TABLE Trial_Dim
+      (Trial_PK int,
+	   Compound_PK int,
+	   TrialName string,
+	   RequiredPatients_Cnt int,
+	   RequiredVisits_Cnt int,
+	   RequiredWeeks_Cnt int, 
+	   equiredDosage string) 
+	   ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+	   ;      
+
+Create table Compound_Dim
+			(Compound_PK int,
+			 CompoundName string);
+
+Create table Investigator_Dim
+			(Investigator_PK int,
+			 InvestigatorName string,
+			 InvestigatorAddress string,
+			 InvestigatorQualifications string);
+
+Create table Patient_Dim
+			(Patient_PK int,
+			 Identity_PK int,
+			 Birth_Dt date,
+			 Gender string,
+			 PatientHeight int);
+
+Create table Identity_Dim
+			(Identity_PK int,
+			 IndividualName string,
+			 IndividualAddress string,
+			 GPName string,
+			 GPAddress string);
+
+Create table Visit_Dim
+			(Visit_PK int,
+			 Visit_Dt date,
+			 SiteAddress string);
+
+Create table Visit_Fact
+			(Trial_PK int,
+			 Investigator_PK int,
+			 Compound_PK int,
+			 Patient_PK int,
+			 Visit_PK int,
+			 BloodPressure string,
+			 Temperature int,
+			 PatientWeight int,
+			 Dosage string,
+			 DeliveryMethod string);
