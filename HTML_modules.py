@@ -247,7 +247,7 @@ def overview_layout():
         </div>
         <div class="w3-col m10 w3-container">
           <h4>John <span class="w3-opacity w3-medium">Sep 29, 2014, 9:12 PM</span></h4>
-          <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
+          <p>GitHub integration complete...Keep up the GREAT work!</p><br>
         </div>
       </div>
 
