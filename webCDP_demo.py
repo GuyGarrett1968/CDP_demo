@@ -12,7 +12,7 @@ class Glob(object):
         self.roles = ["Data manager", "Clinician"]
 
         self.users = {}
-        self.users["Nicolas"] = [self.roles[0], ["ACZ8885M", "BAF158U"]]
+        self.users["James"] = [self.roles[0], ["ACZ8885M", "BAF158U"]]
         self.users["Guy"] = [self.roles[1], ["AIN710A"]]
 
         self.studies = {}
@@ -89,7 +89,7 @@ class WebCDP(object):
         if username not in glob.users:
            html_code = "Unregistered user"
         else:
-            if username == "Nicolas":
+            if username == "James":
                 self.role="Data Management"
             elif username == "Guy":
                 self.role="Clinicians"
@@ -305,6 +305,20 @@ class WebCDP(object):
                                    investigator_dim.investigator_key = visit_fact.investigator_key) ''')
         conn.commit()
 
+
+        cur.execute(''' CREATE TABLE visitview_NCD as SELECT
+                                visitview.*,
+                                NCD_Ex1.IOP
+                            FROM  visitview,
+                                  NCD_Ex1
+                            WHERE (visitview.trial_key               = NCD_Ex1.trial_key AND
+                                   visitview.visit_key               = NCD_Ex1.visit_key AND
+                                   visitview.compound_key         = NCD_Ex1.compound_key AND
+                                   visitview.patient_key           = NCD_Ex1.patient_key AND
+                                   visitview.investigator_key = NCD_Ex1.investigator_key) ''')
+        conn.commit()
+
+
         cur.close()
         conn.close()
 
@@ -335,6 +349,18 @@ class WebCDP(object):
         html_code += footer_layout()
         return html_code
     configuration.exposed = True
+
+
+    def NCD_Ex1(self):
+
+        html_code = header_layout()
+        html_code += topContainer_Layout()
+        html_code += sidebar_layout(self.role, self.username)
+        html_code += NCD_Ex1_layout()
+        html_code += footer_layout()
+
+        return html_code
+    NCD_Ex1.exposed = True
 
 
 # Global objects

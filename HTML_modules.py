@@ -31,8 +31,9 @@ def sidebar_layout(role, username):
         sections = '<a href="overview" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-eye fa-fw"></i>  Overview</a>'
         sections += '<a href="myStudies" class="w3-bar-item w3-button w3-padding"><i class="fa fa-clipboard fa-fw"></i>  My Studies</a>'
         sections += '<a href="DMQueries" class="w3-bar-item w3-button w3-padding"><i class="fa fa-question-circle fa-fw"></i>  Query Management</a>'
-        sections += '<a href="cdmtest" class="w3-bar-item w3-button w3-padding"><i class="fa fa-database fa-fw"></i>  Auto DI Demo</a>'
-        sections += '<a href="cdmTEST_showdata" class="w3-bar-item w3-button w3-padding"><i class="fa fa-table fa-fw"></i>  Show Data</a>'
+        sections += '<a href="cdmtest" class="w3-bar-item w3-button w3-padding"><i class="fa fa-database fa-fw"></i>  Automated Data Integration</a>'
+        sections += '<a href="cdmTEST_showdata" class="w3-bar-item w3-button w3-padding"><i class="fa fa-table fa-fw"></i>  Display Conformed Data Model</a>'
+        sections += '<a href="NCD_Ex1" class="w3-bar-item w3-button w3-padding"><i class="fa fa-table fa-fw"></i>  Non-Conformed Data (IOP Example)</a>'
         sections += '<a href="configuration" class="w3-bar-item w3-button w3-padding"><i class="fa fa-wrench fa-fw"></i>  Configuration</a>'
 
     elif role == "Clinicians":
@@ -698,11 +699,11 @@ def cdmTEST_layout_showdata():
 
         <div class ="w3-main" style="margin-left:300px;margin-top:43px;">
          <header class ="w3-container" style="padding-top:22px" >
-         <h5><b><i class ="fa fa-dashboard"></i> CDM Test</b></h5>
+         <h5><b><i class ="fa fa-dashboard"></i> Conformed Data Model</b></h5>
          </header>
 
          <div class ="w3-container">
-        <h2> TRIAl_DIM </h2>
+        <h2> TRIAL_DIM </h2>
          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">     
                     <tr>    
                     <th>Trial_key</th>,
@@ -805,7 +806,7 @@ def cdmTEST_layout():
     
     <div class ="w3-main" style="margin-left:300px;margin-top:43px;">
      <header class ="w3-container" style="padding-top:22px" >
-     <h5><b><i class ="fa fa-dashboard"></i> CDM Test</b></h5>
+     <h5><b><i class ="fa fa-dashboard"></i> Automated Data Integration - Demo</b></h5>
      </header>
 
      <div class ="w3-container">
@@ -829,15 +830,67 @@ def cdmTEST_layout():
 
     <br><br>     
     <form action="/cdmtest_step2">
-        <input type="submit" value = "Add data - Step 2">
+        <input type="submit" value = "Simulate new visit event - Step 2">
       <br>
     </form>
         <form action="/cdmtest_step3">
-        <input type="submit" value = "Add data - Step 3">
+        <input type="submit" value = "Simulate new trial initiation event - Step 3">
       <br>
     </form>    
      
      '''
+
+
+def NCD_Ex1_layout():
+    dbfile = "db/db1.sq3"
+    conn = sqlite3.connect(dbfile)
+    cur = conn.cursor()
+
+    # BPExample1
+    cur.execute('select * from NCD_Ex1')
+    NCD_Ex1 = ""
+    for row in cur:
+        NCD_Ex1 += "<tr>"
+        for field in str(row).split(","):
+            NCD_Ex1 += "<td>" + field.strip('\'\"() ') + "</td>"
+        NCD_Ex1 += "</tr>"
+    NCD_Ex1 += "</table>"
+
+    cur.close()
+    conn.close()
+
+    return '''
+
+    <div class ="w3-main" style="margin-left:300px;margin-top:43px;">
+     <header class ="w3-container" style="padding-top:22px" >
+     <h5><b><i class ="fa fa-dashboard"></i> Non-Conformed Data - IOP Example</b></h5>
+     </header>
+
+     <div class ="w3-container">
+     <h2> Non-Conformed Data - IOP Example </h2>
+     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">     
+                <tr>    
+                <th>Trial_key</th>,
+                <th>Investigator_key</th>,
+                <th>Compound_key</th>,
+                <th>Patient_key</th>,
+                <th>Visit_key</th>,
+                <th>IOP</th>
+                </tr>                
+     ''' + NCD_Ex1 + '''  <br><br>
+
+    <br><br>
+    <form action="/NCD_step2">
+        <input type="submit" value = "Show Existing Visit View">
+      <br>
+    </form>
+        <form action="/NCD_step3">
+        <input type="submit" value = "Show view merge of Non-Conformed Data">
+      <br>
+    </form>
+
+     '''
+
 
 def footer_layout():
     return '''
@@ -871,6 +924,93 @@ def footer_layout():
 
     </body>
     </html>'''
+
+
+def NCD_step2_layout():
+    dbfile = "db/db1.sq3"
+    conn = sqlite3.connect(dbfile)
+    cur = conn.cursor()
+
+    # BPExample1
+    cur.execute('select * from NCD_Ex1')
+    NCD_Ex1 = ""
+    for row in cur:
+        NCD_Ex1 += "<tr>"
+        for field in str(row).split(","):
+            NCD_Ex1 += "<td>" + field.strip('\'\"() ') + "</td>"
+        NCD_Ex1 += "</tr>"
+    NCD_Ex1 += "</table>"
+
+    # visitview
+    cur.execute('select * from visitview')
+    visitview = ""
+    for row in cur:
+        visitview += "<tr>"
+        for field in str(row).split(","):
+            visitview += "<td>" + field.strip('\'\"() ') + "</td>"
+        visitview += "</tr>"
+    visitview += "</table>"
+
+    cur.close()
+    conn.close()
+
+    return '''
+
+    <div class ="w3-main" style="margin-left:300px;margin-top:43px;">
+     <header class ="w3-container" style="padding-top:22px" >
+     <h5><b><i class ="fa fa-dashboard"></i> Non-Conformed Data - IOP Example</b></h5>
+     </header>
+
+     <div class ="w3-container">
+     <h2> Non-Conformed Data - IOP Example </h2>
+     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">     
+                <tr>    
+                <th>Trial_key</th>,
+                <th>Investigator_key</th>,
+                <th>Compound_key</th>,
+                <th>Patient_key</th>,
+                <th>Visit_key</th>,
+                <th>IOP</th>
+                </tr>                
+     ''' + NCD_Ex1 + '''  <br><br>
+
+    <br><br>
+    <form action="/NCD_step2">
+        <input type="submit" value = "Show Existing Visit View">
+      <br>
+    </form>
+        <form action="/NCD_step3">
+        <input type="submit" value = "Show view merge of Non-Conformed Data">
+      <br>
+    </form>
+
+
+    <div class ="w3-main" style="margin-left:300px;margin-top:43px;">
+     <header class ="w3-container" style="padding-top:22px" >
+     <h5><b><i class ="fa fa-dashboard"></i> Automated Data Integration - Demo</b></h5>
+     </header>
+
+     <div class ="w3-container">
+     <h2> VISIT_VIEW </h2>
+     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">     
+                <tr>    
+                <th>trialname</th>,
+                <th>compoundName</th>,
+                <th>birth_dt</th>,
+                <th>gender</th>,
+                <th>patientHeight</th>,
+                <th>visit_key</th>,
+                <th>visit_dt</th>,
+                <th>BloodPressure</th>,
+                <th>Temperature</th>,
+                <th>PatientWeight</th>,
+                <th>Dosage</th>,
+                <th>DeliveryMethod</th>                
+                </tr>                
+     ''' + visitview + '''  <br><br>
+'''
+
+    NCD_step2.exposed = True
 
 
 def configuration_layout():

@@ -49,6 +49,14 @@ def create_tables():
                          Dosage string,
                          DeliveryMethod string)  ''')
 
+    cur.execute(''' CREATE TABLE NCD_Ex1
+                        (Trial_key int,
+                         Investigator_key int,
+                         Compound_key int,
+                         Patient_key int,
+                         Visit_key int,
+                         IOP string)  ''')
+
     conn.commit()
 
 def addstep_1():
@@ -71,6 +79,13 @@ def addstep_1():
 
     cur.execute(''' insert into visit_fact values (1, 1, 1, 1, 1, "120/80", 37, 160, "25mg", "Injection"),
                                                   (1, 1, 1, 2, 1, "125/75", 36, 150, "20mg", "Injection") ''')
+
+    cur.execute(''' insert into NCD_Ex1 values (1, 1, 1, 1, 1, "15 mmHg"),
+                                               (1, 1, 1, 2, 1, "18 mmHg"),
+                                               (1, 1, 1, 1, 2, "17 mmHg"),
+                                               (1, 1, 1, 2, 2, "19 mmHg") 
+                ''')
+
 
     conn.commit()
 
